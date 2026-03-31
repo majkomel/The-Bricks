@@ -1,0 +1,24 @@
+body {
+    margin: 0;             
+    display: flex;        
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;     
+}
+#igra{
+	height:500px;
+	width: 588px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid black;
+}
+#podatki{
+	height:500px;
+	width: 200px;
+	display: flex;
+	margin: 10px;
+	border: 1px solid black;
+	flex-direction: column;
+	text-align: center;
+}
