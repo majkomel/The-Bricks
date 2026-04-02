@@ -29,7 +29,7 @@ function drawIt() {
     var minuteI;
     var intTimer;
     var izpisTimer;
-    var start = true;
+    var start = false;
 
 
 
@@ -57,7 +57,7 @@ function drawIt() {
             $("#cas").html(izpisTimer);
         }
         else {
-            sekunde = 0;
+            
             //izpisTimer = "00:00";
             $("#cas").html(izpisTimer);
         }
@@ -67,7 +67,12 @@ function drawIt() {
     function onKeyDown(evt) {
         if (evt.keyCode == 37)
             leftDown = true;
-        else if (evt.keyCode == 39) rightDown = true;
+        else if (evt.keyCode == 39) 
+			rightDown = true;
+		else if (evt.keyCode == 13) { // Tipka ENTER
+			start = !start; 
+		}
+		
     }
 
     function onKeyUp(evt) {
@@ -120,81 +125,79 @@ function drawIt() {
     //END LIBRARY CODE
     function draw() {
         clear();
-        circle(x, y, 10);
+        circle(x, y, 10);//riši krog
+		rect(paddlex, HEIGHT - paddleh -20, paddlew, paddleh);//riši plošček
+		//riši opeke
+		for (i = 0; i < NROWS; i++) {
+				for (j = 0; j < NCOLS; j++) {
+					if (bricks[i][j] == 1) {
+						rect((j * (BRICKWIDTH + PADDING)) + PADDING,
+							(i * (BRICKHEIGHT + PADDING)) + PADDING,
+							BRICKWIDTH, BRICKHEIGHT);
+					}
+				}
+			}
         //premik ploščice levo in desno
-        if (rightDown) {
-            if ((paddlex + paddlew) < WIDTH) {
-                paddlex += 6;
-            } else {
-                paddlex = WIDTH - paddlew;
-            }
-        }
-        else if (leftDown) {
-            if (paddlex > 0) {
-                paddlex -= 5;
-            } else {
-                paddlex = 0;
-            }
-        }
+		if (start) {
+			if (rightDown) {
+				if ((paddlex + paddlew) < WIDTH) {
+					paddlex += 6;
+				} else {
+					paddlex = WIDTH - paddlew;
+				}
+			}
+			else if (leftDown) {
+				if (paddlex > 0) {
+					paddlex -= 5;
+				} else {
+					paddlex = 0;
+				}
+			}
+			rowheight = BRICKHEIGHT + PADDING + r / 2; //Smo zadeli opeko?
+			colwidth = BRICKWIDTH + PADDING + r / 2;
+			row = Math.floor(y / rowheight);
+			col = Math.floor(x / colwidth);
+			if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+				// razdalja žogce do vodoravnih in navpičnih robov opeke
+				var distX = Math.abs(x - (col * colwidth + BRICKWIDTH / 2));
+				var distY = Math.abs(y - (row * rowheight + BRICKHEIGHT / 2));
 
+				if (distX / BRICKWIDTH > distY / BRICKHEIGHT)
+					dx = -dx; // zadetek z leve ali desne strani
+				else
+					dy = -dy; // zadetek z zgornje ali spodnje strani
 
-        rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
+				bricks[row][col] = 0;
+				tocke += 1;
+				$("#tocke").html(tocke);
+			}
 
-        //riši opeke
-        for (i = 0; i < NROWS; i++) {
-            for (j = 0; j < NCOLS; j++) {
-                if (bricks[i][j] == 1) {
-                    rect((j * (BRICKWIDTH + PADDING)) + PADDING,
-                        (i * (BRICKHEIGHT + PADDING)) + PADDING,
-                        BRICKWIDTH, BRICKHEIGHT);
-                }
-            }
-        }
+			//odboj od leve in desne stene
+			if (x + dx > WIDTH - r || x + dx < 0 + r)
+				dx = -dx;//ce bi zogca zadela steno ji obrni x smer
 
+			//odboj od zgornje stene
+			if (y + dy < 0 + r)
+				dy = -dy;//ce bi zogca zadela zgornjo steno ji obrni y smer
 
-        rowheight = BRICKHEIGHT + PADDING + r / 2; //Smo zadeli opeko?
-        colwidth = BRICKWIDTH + PADDING + r / 2;
-        row = Math.floor(y / rowheight);
-        col = Math.floor(x / colwidth);
-        if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
-            // razdalja žogce do vodoravnih in navpičnih robov opeke
-            var distX = Math.abs(x - (col * colwidth + BRICKWIDTH / 2));
-            var distY = Math.abs(y - (row * rowheight + BRICKHEIGHT / 2));
+			//odboj od spodnje stene
+			else if (y + dy > HEIGHT - r) {
+				start = false;
+				//preveri ali je zadel ploščico
+				if (x > paddlex && x < paddlex + paddlew) {
+					dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);//ce bolj na sredino ploščice zadene, manjši odboj, če bolj na rob, večji odboj
+					dy = -dy; //obbrni y smer
+					y = HEIGHT - paddleh - r;
+					start = true;
+				}
 
-            if (distX / BRICKWIDTH > distY / BRICKHEIGHT)
-                dx = -dx; // zadetek z leve ali desne strani
-            else
-                dy = -dy; // zadetek z zgornje ali spodnje strani
-
-            bricks[row][col] = 0;
-            tocke += 1;
-            $("#tocke").html(tocke);
-        }
-
-        //odboj od leve in desne stene
-        if (x + dx > WIDTH - r || x + dx < 0 + r)
-            dx = -dx;//ce bi zogca zadela steno ji obrni x smer
-
-        //odboj od zgornje stene
-        if (y + dy < 0 + r)
-            dy = -dy;//ce bi zogca zadela steno ji obrni y smer
-
-        //odboj od spodnje stene
-        else if (y + dy > HEIGHT - (r + paddleh)) {
-            start = false;
-            //preveri ali je zadel ploščico
-            if (x > paddlex && x < paddlex + paddlew) {
-                dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);//ce bolj na sredino ploščice zadene, manjši odboj, če bolj na rob, večji odboj
-                dy = -dy; //obbrni y smer
-                start = true;
-            }
-
-            //ustavi interval draw
-            else if (y + dy > HEIGHT - r)
-                clearInterval(intervalId);
-        }
-        x += dx;
-        y += dy;
+				//ustavi interval draw
+				else if (y + dy > HEIGHT - r)
+					clearInterval(intervalId);
+			}
+			x += dx;
+			y += dy;
+		}
     }
 
     init();
