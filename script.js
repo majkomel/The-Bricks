@@ -32,9 +32,19 @@ function drawIt() {
     var start = false;
 	var konecigre=false;
 	
+	var brick = new Image();
+	brick.src = "brick.png";
+	var ploscek = new Image();
+	ploscek.src = "ploscek.png";
+	var zoga = new Image();
+	zoga.src = "zoga.png";
+	var kacaslika = new Image();
+	kacaslika.src = "kaca.png";
+	
 	kace = new Array();
+	
 
-
+	
 
     function init() {
         tocke = 0;
@@ -129,10 +139,15 @@ function drawIt() {
     }
 	function kaca(x, y, w, h){
 		ctx.beginPath();
-        ctx.rect(x, y, w, h);
+        ctx.drawImage(kacaslika, x, y, w, h);
         ctx.closePath();
         ctx.fill();
 	}
+	//deklaracija in inicializacija slike
+	
+
+	//vstavljanje slike
+	
 
     function clear() {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -140,24 +155,34 @@ function drawIt() {
     //END LIBRARY CODE
     function draw() {
         clear();
-        circle(x, y, 10);//riši krog
-		rect(paddlex, HEIGHT - paddleh -20, paddlew, paddleh);//riši plošček
+        
+		ctx.drawImage(zoga, x - r, y - r, r * 2, r * 2);
+		ctx.drawImage(ploscek, paddlex, HEIGHT - paddleh -20, paddlew, paddleh);
 		//riši opeke
-		for (i = 0; i < NROWS; i++) {
-				for (j = 0; j < NCOLS; j++) {
-					if (bricks[i][j] == 1) {
-						rect((j * (BRICKWIDTH + PADDING)) + PADDING,
-							(i * (BRICKHEIGHT + PADDING)) + PADDING,
-							BRICKWIDTH, BRICKHEIGHT);
-					}
-				}
-			}
+		//riši opeke
+
+        for (i = 0; i < NROWS; i++) {
+
+                for (j = 0; j < NCOLS; j++) {
+
+                    if (bricks[i][j] == 1) {
+						var brickX = (j * (BRICKWIDTH + PADDING)) + PADDING;
+						var brickY = (i * (BRICKHEIGHT + PADDING)) + PADDING;
+                        ctx.drawImage(brick, brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
+
+                            
+
+                    }
+
+                }
+
+            } 
 		// Risanje in premikanje padajočih kač
 		for (var i = 0; i < kace.length; i++) {
 			var k = kace[i];
 			
 			// Nariši kačo na trenutnih koordinatah
-			kaca(k.x, k.y, 8, 40);
+			kaca(k.x, k.y, 16, 80);
 			
 			// Če je igra zagnana, povečuj Y (padanje)
 			if (start) {
@@ -165,7 +190,7 @@ function drawIt() {
 			}
 
 			// Preveri, če je ploščica ulovila kačo (kolizija s ploščico)
-			if (k.y + 40 > HEIGHT - paddleh - 20 && k.x > paddlex && k.x < paddlex + paddlew) {
+			if (k.y + 80 > HEIGHT - paddleh - 20 && k.x > paddlex && k.x < paddlex + paddlew) {
 				start = false;
 				konecigre=true;
 				clearInterval(intTimer);
@@ -245,7 +270,7 @@ function drawIt() {
 					$("#tocke").html(tocke);
 					var opekaX = col * (BRICKWIDTH + PADDING) + PADDING;
 					var opekaY = row * (BRICKHEIGHT + PADDING) + PADDING;
-					var ran = Math.floor(Math.random() * 5) + 1;
+					var ran = Math.floor(Math.random() * 4) + 1;
 					if(ran==2){
 						kace.push({
 						

@@ -3,7 +3,8 @@ body {
     display: flex;        
     justify-content: center; 
     align-items: center;     
-    min-height: 100vh;     
+    min-height: 100vh;  
+	
 }
 #igra{
 	height:500px;
@@ -21,4 +22,9 @@ body {
 	border: 1px solid black;
 	flex-direction: column;
 	text-align: center;
+}
+#canvas {
+    background-image: url("ozadje.png");
+    background-size: cover; /* Slika bo raztegnjena čez celo platno */
+    background-position: center;
 }
