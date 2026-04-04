@@ -31,6 +31,8 @@ function drawIt() {
     var izpisTimer;
     var start = false;
 	var konecigre=false;
+	
+	kace = new Array();
 
 
 
@@ -125,6 +127,12 @@ function drawIt() {
         ctx.closePath();
         ctx.fill();
     }
+	function kaca(x, y, w, h){
+		ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.closePath();
+        ctx.fill();
+	}
 
     function clear() {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -144,6 +152,46 @@ function drawIt() {
 					}
 				}
 			}
+		// Risanje in premikanje padajočih kač
+		for (var i = 0; i < kace.length; i++) {
+			var k = kace[i];
+			
+			// Nariši kačo na trenutnih koordinatah
+			kaca(k.x, k.y, 8, 40);
+			
+			// Če je igra zagnana, povečuj Y (padanje)
+			if (start) {
+				k.y += 2; // Hitrost padanja
+			}
+
+			// Preveri, če je ploščica ulovila kačo (kolizija s ploščico)
+			if (k.y + 40 > HEIGHT - paddleh - 20 && k.x > paddlex && k.x < paddlex + paddlew) {
+				start = false;
+				konecigre=true;
+				clearInterval(intTimer);
+					Swal.fire({
+				title: 'Konec igre!',
+				text: 'Stevilo tock:' + tocke,
+				icon: 'error',
+				confirmButtonText: 'Igraj ponovno',
+				confirmButtonColor: '#3085d6',
+				allowOutsideClick: false
+				
+				}).then(function(result) {
+					// Ta del se izvede po kliku na gumb
+					if (result.isConfirmed) {
+						location.reload(); // Ponovno naloži stran
+					}
+				});
+				kace.splice(i, 1);//izbrise kaco s tabele
+				return;//ustavi draw
+
+			}
+			else if (k.y > HEIGHT) {
+			kace.splice(i, 1);
+			i--; // Zmanjšamo i, ker se je tabela skrajšala
+    }
+		}
         //premik ploščice levo in desno
 		if(konecigre==false){
 			if (start) {
@@ -163,8 +211,8 @@ function drawIt() {
 				}
 				rowheight = BRICKHEIGHT + PADDING + r / 2; //Smo zadeli opeko?
 				colwidth = BRICKWIDTH + PADDING + r / 2;
-				row = Math.floor(y / rowheight);
-				col = Math.floor(x / colwidth);
+				row = Math.floor((y-r) / rowheight);
+				col = Math.floor((x-r) / colwidth);
 				if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
 					// razdalja žogce do vodoravnih in navpičnih robov opeke
 					var distX = Math.abs(x - (col * colwidth + BRICKWIDTH / 2));
@@ -177,7 +225,37 @@ function drawIt() {
 
 					bricks[row][col] = 0;
 					tocke += 1;
+					if(tocke==40){
+						start=false;
+						Swal.fire({
+						title: 'Čestitamo! Zmaga!',
+						text: 'Uničili ste vse opeke! Vaš čas: ' + izpisTimer,
+						text: 'Stevilo tock:' + tocke,
+						icon: 'success',
+						confirmButtonText: 'Igraj ponovno',
+						confirmButtonColor: '#28a745',
+						allowOutsideClick: false
+					}).then(function(result) {
+						if (result.isConfirmed) {
+							location.reload();
+						}
+					});
+					return;
+					}
 					$("#tocke").html(tocke);
+					var opekaX = col * (BRICKWIDTH + PADDING) + PADDING;
+					var opekaY = row * (BRICKHEIGHT + PADDING) + PADDING;
+					var ran = Math.floor(Math.random() * 5) + 1;
+					if(ran==2){
+						kace.push({
+						
+							x: opekaX + BRICKWIDTH / 2, // Sredina opeke
+							y: opekaY,
+							sirina: 6,
+							visina: 40,
+						
+						});
+					}
 				}
 
 				//odboj od leve in desne stene
@@ -210,13 +288,19 @@ function drawIt() {
 				if(konecigre){
 					Swal.fire({
 				title: 'Konec igre!',
-				text: 'Zbrali ste ' + tocke + ' točk.',
+				text: 'Stevilo tock:' + tocke,
 				icon: 'error',
 				confirmButtonText: 'Igraj ponovno',
 				confirmButtonColor: '#3085d6',
 				allowOutsideClick: false
 				
+				}).then(function(result) {
+					// Ta del se izvede po kliku na gumb
+					if (result.isConfirmed) {
+						location.reload(); // Ponovno naloži stran
+					}
 				});
+				return;
 				}
 			}
 		}
