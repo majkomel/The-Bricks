@@ -4,6 +4,14 @@ body {
     justify-content: center; 
     align-items: center;     
     min-height: 100vh;  
+	background-color: #ffae42;
+	flex-direction: column;
+	
+}
+#vsebina {
+    display: flex; /* To postavi igro in podatke drug POLEG drugega */
+    flex-direction: row;
+    align-items: flex-start;
 	
 }
 #igra{
@@ -13,18 +21,35 @@ body {
 	align-items: center;
 	justify-content: center;
 	border: 1px solid black;
+	margin-top:20px;
 }
 #podatki{
 	height:500px;
 	width: 200px;
 	display: flex;
-	margin: 10px;
+	margin: 20px;
 	border: 1px solid black;
 	flex-direction: column;
 	text-align: center;
+	background-image: url("ozadje2.png");
+    background-size: cover; /* Slika bo raztegnjena čez celo platno */
+    background-position: center;
 }
 #canvas {
     background-image: url("ozadje.png");
     background-size: cover; /* Slika bo raztegnjena čez celo platno */
     background-position: center;
+}
+#naslov{
+	height: 50px;
+	width: 808px;
+	justify-content: center;   /* Vodoravna poravnava na sredino */
+    align-items: center;
+	display: flex;
+	color: #ae2334;
+	font-size: 30px;
+}
+mark{
+	text-decoration: none;
+	background-color: transparent
 }

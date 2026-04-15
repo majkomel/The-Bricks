@@ -5,7 +5,7 @@ function drawIt() {
     var dy = 3;
     var WIDTH;
     var HEIGHT;
-    var r = 10;
+    var r = 7;
     var ctx;
     var paddlex;
     var paddleh;
@@ -36,8 +36,7 @@ function drawIt() {
 	brick.src = "brick.png";
 	var ploscek = new Image();
 	ploscek.src = "ploscek.png";
-	var zoga = new Image();
-	zoga.src = "zoga.png";
+	
 	var kacaslika = new Image();
 	kacaslika.src = "kaca.png";
 	
@@ -129,6 +128,8 @@ function drawIt() {
         ctx.arc(x, y, r, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.fill();
+		ctx.fillStyle = "#ae2334";
+		ctx.fill();
     }
 
     function rect(x, y, w, h) {
@@ -156,7 +157,7 @@ function drawIt() {
     function draw() {
         clear();
         
-		ctx.drawImage(zoga, x - r, y - r, r * 2, r * 2);
+		circle( x - r, y - r, r * 2, r * 2);
 		ctx.drawImage(ploscek, paddlex, HEIGHT - paddleh -20, paddlew, paddleh);
 		//riši opeke
 		//riši opeke
@@ -199,7 +200,7 @@ function drawIt() {
 				text: 'Stevilo tock:' + tocke,
 				icon: 'error',
 				confirmButtonText: 'Igraj ponovno',
-				confirmButtonColor: '#3085d6',
+				confirmButtonColor: '#ffae42',
 				allowOutsideClick: false
 				
 				}).then(function(result) {
@@ -258,7 +259,7 @@ function drawIt() {
 						text: 'Stevilo tock:' + tocke,
 						icon: 'success',
 						confirmButtonText: 'Igraj ponovno',
-						confirmButtonColor: '#28a745',
+						confirmButtonColor: '#ffae42',
 						allowOutsideClick: false
 					}).then(function(result) {
 						if (result.isConfirmed) {
@@ -316,7 +317,7 @@ function drawIt() {
 				text: 'Stevilo tock:' + tocke,
 				icon: 'error',
 				confirmButtonText: 'Igraj ponovno',
-				confirmButtonColor: '#3085d6',
+				confirmButtonColor: '#ffae42',
 				allowOutsideClick: false
 				
 				}).then(function(result) {
