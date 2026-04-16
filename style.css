@@ -1,10 +1,15 @@
+@font-face{
+	font-family:'font';
+	src:url('Audiowide/AudioWide-Regular.ttf') format('truetype');
+}
 body {
     margin: 0;             
     display: flex;        
     justify-content: center; 
     align-items: center;     
     min-height: 100vh;  
-	background-color: #ffae42;
+	background: #253d29;
+background: radial-gradient(circle,rgba(37, 61, 41, 1) 0%, rgba(0, 0, 0, 1) 100%);
 	flex-direction: column;
 	
 }
@@ -20,25 +25,25 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid black;
+	box-shadow: 0 4px 25px rgba(200, 255, 200, 0.3), 0 6px 25px rgba(200, 255, 200, 0.2);
 	margin-top:20px;
 }
 #podatki{
 	height:500px;
-	width: 200px;
+	width: 225px;
 	display: flex;
 	margin: 20px;
-	border: 1px solid black;
+	font-family: 'font';
 	flex-direction: column;
-	text-align: center;
-	background-image: url("ozadje2.png");
-    background-size: cover; /* Slika bo raztegnjena čez celo platno */
-    background-position: center;
+	text-align: left;
+	background: #101510;
+	color: white;
+	padding-left:5px;
+	box-shadow: 0 4px 25px rgba(200, 255, 200, 0.3), 0 6px 25px rgba(200, 255, 200, 0.2);
 }
 #canvas {
-    background-image: url("ozadje.png");
-    background-size: cover; /* Slika bo raztegnjena čez celo platno */
-    background-position: center;
+    background: #101510;
+    
 }
 #naslov{
 	height: 50px;
@@ -46,10 +51,13 @@ body {
 	justify-content: center;   /* Vodoravna poravnava na sredino */
     align-items: center;
 	display: flex;
-	color: #ae2334;
+	color: white;
 	font-size: 30px;
+	font-family: 'font';
 }
 mark{
 	text-decoration: none;
-	background-color: transparent
+	background-color: transparent;
+	color:white;
+	font-family: 'font';
 }

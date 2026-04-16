@@ -32,10 +32,8 @@ function drawIt() {
     var start = false;
 	var konecigre=false;
 	
-	var brick = new Image();
-	brick.src = "brick.png";
-	var ploscek = new Image();
-	ploscek.src = "ploscek.png";
+	
+	
 	
 	var kacaslika = new Image();
 	kacaslika.src = "kaca.png";
@@ -84,7 +82,7 @@ function drawIt() {
             leftDown = true;
         else if (evt.keyCode == 39) 
 			rightDown = true;
-		else if (evt.keyCode == 13) { // Tipka ENTER
+		else if (evt.keyCode == 13) { 
 			start = !start; 
 		}
 		else if(evt.keyCode==82){
@@ -128,7 +126,7 @@ function drawIt() {
         ctx.arc(x, y, r, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.fill();
-		ctx.fillStyle = "#ae2334";
+		ctx.fillStyle = "#ffffff";
 		ctx.fill();
     }
 
@@ -137,6 +135,7 @@ function drawIt() {
         ctx.rect(x, y, w, h);
         ctx.closePath();
         ctx.fill();
+		ctx.fillStyle = "#253D29";
     }
 	function kaca(x, y, w, h){
 		ctx.beginPath();
@@ -144,10 +143,7 @@ function drawIt() {
         ctx.closePath();
         ctx.fill();
 	}
-	//deklaracija in inicializacija slike
 	
-
-	//vstavljanje slike
 	
 
     function clear() {
@@ -158,7 +154,7 @@ function drawIt() {
         clear();
         
 		circle( x - r, y - r, r * 2, r * 2);
-		ctx.drawImage(ploscek, paddlex, HEIGHT - paddleh -20, paddlew, paddleh);
+		rect(paddlex, HEIGHT - paddleh -20, paddlew, paddleh);
 		//riši opeke
 		//riši opeke
 
@@ -169,7 +165,7 @@ function drawIt() {
                     if (bricks[i][j] == 1) {
 						var brickX = (j * (BRICKWIDTH + PADDING)) + PADDING;
 						var brickY = (i * (BRICKHEIGHT + PADDING)) + PADDING;
-                        ctx.drawImage(brick, brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
+                        rect(brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
 
                             
 
@@ -197,10 +193,10 @@ function drawIt() {
 				clearInterval(intTimer);
 					Swal.fire({
 				title: 'Konec igre!',
-				text: 'Stevilo tock:' + tocke,
+				text: 'Število točk:' + tocke,
 				icon: 'error',
 				confirmButtonText: 'Igraj ponovno',
-				confirmButtonColor: '#ffae42',
+				confirmButtonColor: '#253D29',
 				allowOutsideClick: false
 				
 				}).then(function(result) {
@@ -256,10 +252,10 @@ function drawIt() {
 						Swal.fire({
 						title: 'Čestitamo! Zmaga!',
 						text: 'Uničili ste vse opeke! Vaš čas: ' + izpisTimer,
-						text: 'Stevilo tock:' + tocke,
+						text: 'Število toČk:' + tocke,
 						icon: 'success',
 						confirmButtonText: 'Igraj ponovno',
-						confirmButtonColor: '#ffae42',
+						confirmButtonColor: '##253D29',
 						allowOutsideClick: false
 					}).then(function(result) {
 						if (result.isConfirmed) {
@@ -314,10 +310,10 @@ function drawIt() {
 				if(konecigre){
 					Swal.fire({
 				title: 'Konec igre!',
-				text: 'Stevilo tock:' + tocke,
+				text: 'Število toČk:' + tocke,
 				icon: 'error',
 				confirmButtonText: 'Igraj ponovno',
-				confirmButtonColor: '#ffae42',
+				confirmButtonColor: '#253D29',
 				allowOutsideClick: false
 				
 				}).then(function(result) {
